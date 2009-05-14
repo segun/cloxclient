@@ -1,0 +1,56 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package com.trinisoft.cloxclient.models;
+
+import java.util.Date;
+
+/**
+ *
+ * @author segun
+ */
+public class Message {
+    String from;
+    String to;
+    String msg;
+    Date time;
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
+    }
+    
+    @Override
+    public String toString() {
+        return "Message: " + msg + ", sent from: " + from + " on " + time;
+    }
+}
