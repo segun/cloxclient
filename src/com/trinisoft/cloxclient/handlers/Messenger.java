@@ -18,14 +18,15 @@ import java.util.Date;
  */
 public class Messenger {
     public static void sendMessage(Message message, Socket socket) {
-        String sendThis = "from:" + message.getFrom() + "," +
-                "to:" + message.getTo() + "," +
-                "date:" + message.getTime().getTime() + "," +
-                "msg:" + message.getMsg() + "\n";
+        String sendThis = "message:from=" + message.getFrom() + ":s" +
+                "to=" + message.getTo() + ":s" +
+                "date=" + message.getTime().getTime() + ":s" +
+                "msg=" + message.getMsg() + "\n";
         try {
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             writer.write(sendThis);
             writer.flush();
+            System.out.println("SENT: " + sendThis);
         } catch(IOException ioe) {
             ioe.printStackTrace();
         }
