@@ -76,7 +76,6 @@ public class ProtocolHandler extends Thread {
                             updateClientList(serverMessage);
                             /*UI*/
                             mclient.btnLogin.setEnabled(false);
-                            mclient.btnSend.setEnabled(true);
                             mclient.btnDisconnect.setEnabled(true);
                             mclient.lblStatus.setText("Connected");
                             Object[] names = ClientList.clientList.toArray();

@@ -14,6 +14,7 @@ import com.trinisoft.cloxclient.Client;
 import com.trinisoft.cloxclient.handlers.Messenger;
 import com.trinisoft.cloxclient.models.Message;
 import com.trinisoft.cloxclient.models.Messages;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.Date;
@@ -80,6 +81,7 @@ public class CloxClient extends javax.swing.JFrame {
         namesList = new javax.swing.JList();
         lblStatus = new javax.swing.JLabel();
         chkAll = new javax.swing.JCheckBox();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -87,7 +89,14 @@ public class CloxClient extends javax.swing.JFrame {
 
         jLabel1.setText("Username:");
 
+        txtUsername.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUsernameActionPerformed(evt);
+            }
+        });
+
         btnLogin.setText("Login");
+        btnLogin.setSelected(true);
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
@@ -129,17 +138,34 @@ public class CloxClient extends javax.swing.JFrame {
         );
 
         jScrollPane3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-
-        txtRecieved.setText("<b>Hello</b>");
         jScrollPane3.setViewportView(txtRecieved);
 
         jScrollPane4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+
+        txtToSend.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtToSendActionPerformed(evt);
+            }
+        });
+        txtToSend.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                txtToSendCaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
+        txtToSend.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtToSendKeyReleased(evt);
+            }
+        });
         jScrollPane4.setViewportView(txtToSend);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btnSend.setText("Send");
         btnSend.setEnabled(false);
+        btnSend.setSelected(true);
         btnSend.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSendActionPerformed(evt);
@@ -150,11 +176,13 @@ public class CloxClient extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnSend, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+            .addComponent(btnSend, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnSend, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(btnSend, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -166,36 +194,51 @@ public class CloxClient extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(namesList);
 
-        lblStatus.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblStatus.setFont(new java.awt.Font("Tahoma", 1, 12));
         lblStatus.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblStatus.setText("Disconnected");
         lblStatus.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
         chkAll.setText("    Everyone");
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), "Emoticons"));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 444, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(213, 213, 213))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(213, 213, 213))
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
                     .addComponent(chkAll))
                 .addContainerGap())
         );
@@ -208,16 +251,20 @@ public class CloxClient extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
+                .addGap(13, 13, 13)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chkAll)
+                .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(chkAll)))
                 .addGap(7, 7, 7))
         );
 
@@ -226,23 +273,34 @@ public class CloxClient extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        if (!Client.STOP_CLIENT) {
-            Client.STOP_CLIENT = true;
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException ie) {
-                ie.printStackTrace();
+        final CloxClient cloxClient = this;
+        btnLogin.setEnabled(false);
+        new Thread() {
+
+            public void run() {
+                if (!Client.STOP_CLIENT) {
+                    Client.STOP_CLIENT = true;
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException ie) {
+                        ie.printStackTrace();
+                    }
+                }
+                if (!txtUsername.getText().equals("")) {
+                    username = txtUsername.getText();
+                    try {
+                        client = new Client(username, cloxClient);
+                        client.start();
+                    } catch (IOException ioe) {
+                        ioe.printStackTrace();
+                        btnLogin.setEnabled(true);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(cloxClient, "Please enter a username");
+                    btnLogin.setEnabled(true);
+                }
             }
-        }
-        if (!txtUsername.getText().equals("")) {
-            username = txtUsername.getText();
-            try {
-                client = new Client(username, this);
-                client.start();
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-            }
-        }
+        }.start();
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnDisconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisconnectActionPerformed
@@ -263,44 +321,83 @@ public class CloxClient extends javax.swing.JFrame {
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
         // TODO add your handling code here:
-        Object selectedNames[] = namesList.getSelectedValues();
-        Object sendTo[] = new Object[0];
-        if (!txtToSend.getText().equals("")) {
-            if (chkAll.isSelected()) {
-                int option = JOptionPane.showConfirmDialog(this, "Are you sure you want to send this message to everyone?", "Clox Client: Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
-                if (option == JOptionPane.YES_OPTION) {
-                    sendTo = names;
+        final CloxClient cloxClient = this;
+        btnSend.setEnabled(false);
+        new Thread() {
+
+            public void run() {
+                Object selectedNames[] = namesList.getSelectedValues();
+                Object sendTo[] = new Object[0];
+                if (!txtToSend.getText().equals("")) {
+                    if (chkAll.isSelected()) {
+                        int option = JOptionPane.showConfirmDialog(cloxClient, "Are you sure you want to send this message to everyone?", "Clox Client: Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
+                        if (option == JOptionPane.YES_OPTION) {
+                            sendTo = names;
+                        } else {
+                            btnSend.setEnabled(true);
+                            return;
+                        }
+                    } else {
+                        sendTo = selectedNames;
+                    }
+                    if (sendTo.length <= 0) {
+                        JOptionPane.showMessageDialog(cloxClient, "Please select a user.", "Clox Client: Message", JOptionPane.ERROR_MESSAGE);
+                        btnSend.setEnabled(true);
+                        return;
+                    }
+                    for (Object to : sendTo) {
+                        Message message = Messenger.produceMessage(txtToSend.getText(), username, to.toString(), new Date());
+                        Messenger.sendMessage(message, client.clientSocket);
+                        Messages.list.add(message);
+                        txtRecieved.getEditorKit().createDefaultDocument();
+                        String all = "";
+                        for (Message msg : Messages.list) {
+                            all += msg;
+                        }
+                        txtRecieved.setText(all);
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException ie) {
+                            ie.printStackTrace();
+                        }
+                    }
+                    txtToSend.setText("");
                 } else {
-                    return;
-                }
-            } else {
-                sendTo = selectedNames;
-            }
-            if (sendTo.length <= 0) {
-                JOptionPane.showMessageDialog(this, "Please select a user.", "Clox Client: Message", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            for (Object to : sendTo) {
-                Message message = Messenger.produceMessage(txtToSend.getText(), username, to.toString(), new Date());
-                Messenger.sendMessage(message, client.clientSocket);
-                Messages.list.add(message);
-                txtRecieved.getEditorKit().createDefaultDocument();
-                String all = "";
-                for (Message msg : Messages.list) {
-                    all += msg;
-                }
-                txtRecieved.setText(all);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ie) {
-                    ie.printStackTrace();
+                    JOptionPane.showMessageDialog(cloxClient, "Please type a message", "Clox Client: Message", JOptionPane.ERROR_MESSAGE);
                 }
             }
-            txtToSend.setText("");
-        } else {
-            JOptionPane.showMessageDialog(this, "Please type a message", "Clox Client: Message", JOptionPane.ERROR_MESSAGE);
-        }
+        }.start();
     }//GEN-LAST:event_btnSendActionPerformed
+
+    private void txtToSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtToSendActionPerformed
+        // TODO add your handling code here:
+        btnSendActionPerformed(evt);
+    }//GEN-LAST:event_txtToSendActionPerformed
+
+    private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
+        // TODO add your handling code here:
+        btnLoginActionPerformed(evt);
+    }//GEN-LAST:event_txtUsernameActionPerformed
+
+    private void txtToSendKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtToSendKeyReleased
+        // TODO add your handling code here:
+        if (evt.getKeyCode() != KeyEvent.VK_ENTER) {
+            if (txtToSend.getText().equals("")) {
+                btnSend.setEnabled(false);
+            } else {
+                btnSend.setEnabled(true);
+            }
+        }
+    }//GEN-LAST:event_txtToSendKeyReleased
+
+    private void txtToSendCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtToSendCaretPositionChanged
+        // TODO add your handling code here:
+        if (txtToSend.getText().equals("")) {
+            btnSend.setEnabled(false);
+        } else {
+            btnSend.setEnabled(true);
+        }
+    }//GEN-LAST:event_txtToSendCaretPositionChanged
 
     /**
      * @param args the command line arguments
@@ -321,6 +418,7 @@ public class CloxClient extends javax.swing.JFrame {
     public javax.swing.JCheckBox chkAll;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
