@@ -43,7 +43,6 @@ public class Client extends Thread {
                 clientSocket = new Socket(host, port);
 
                 String clientDetails = "port:" + clientSocket.getLocalPort() + ",name:" + username + ",address:" + clientSocket.getLocalAddress();
-                System.out.println(clientDetails);
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
                 writer.write(clientDetails + "\n");
                 writer.flush();
@@ -54,6 +53,5 @@ public class Client extends Thread {
                 ioe.printStackTrace();
             }
         }
-        System.out.println(clientSocket.isClosed());
     }
 }

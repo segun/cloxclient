@@ -31,7 +31,6 @@ public class ProtocolHandler extends Thread {
 
     private Message parseMessage(String clientMessage) {
         Message message = new Message();
-        System.out.println(clientMessage);
         String[] splitted = clientMessage.split(":s");
         for (String token : splitted) {
             if (token.contains("from")) {
@@ -70,7 +69,6 @@ public class ProtocolHandler extends Thread {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 String serverMessage = "";
                 while ((serverMessage = reader.readLine()) != null) {
-                    System.out.println("RT: " + serverMessage);
 
                     if (serverMessage != null) {
                         if (serverMessage.startsWith("clients")) {
@@ -85,7 +83,7 @@ public class ProtocolHandler extends Thread {
                             mclient.setNames(names);
                             mclient.namesList.setSelectedIndices(mclient.selectedClients);
 
-                        } else if (serverMessage.startsWith("message")) {
+                         } else if (serverMessage.startsWith("message")) {
                             String message = serverMessage;
                             
                             message = message.replace("message:", "");

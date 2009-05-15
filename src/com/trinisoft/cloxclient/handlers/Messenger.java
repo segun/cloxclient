@@ -26,7 +26,6 @@ public class Messenger {
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             writer.write(sendThis);
             writer.flush();
-            System.out.println("SENT: " + sendThis);
         } catch(IOException ioe) {
             ioe.printStackTrace();
         }
