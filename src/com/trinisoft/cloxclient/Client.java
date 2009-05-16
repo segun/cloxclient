@@ -27,7 +27,7 @@ public class Client extends Thread {
     public CloxClient client;
 
     public Client(String username, CloxClient client) throws IOException {
-        Properties props = new PropertyHelper().getProperties(".\\cloxclient.properties");
+        Properties props = new PropertyHelper().getProperties("./cloxclient.properties");
         this.port = Integer.parseInt(props.getProperty("com.cloxclient.port"));
         this.host = props.getProperty("com.cloxclient.host");
         this.username = username;
