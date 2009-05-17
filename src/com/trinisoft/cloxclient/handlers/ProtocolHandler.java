@@ -4,16 +4,24 @@
  */
 package com.trinisoft.cloxclient.handlers;
 
+import com.trinisoft.cloxclient.Client;
 import com.trinisoft.cloxclient.helpers.ClientList;
 import com.trinisoft.cloxclient.models.Message;
 import com.trinisoft.cloxclient.models.Messages;
 import com.trinisoft.cloxclient.ui.CloxClient;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,6 +31,7 @@ public class ProtocolHandler extends Thread {
 
     Socket socket;
     CloxClient mclient;
+    public static File ackFile;
 
     public ProtocolHandler(Socket socket, CloxClient client) {
         this.socket = socket;
@@ -82,9 +91,9 @@ public class ProtocolHandler extends Thread {
                             mclient.setNames(names);
                             mclient.namesList.setSelectedIndices(mclient.selectedClients);
 
-                         } else if (serverMessage.startsWith("message")) {
+                        } else if (serverMessage.startsWith("message")) {
                             String message = serverMessage;
-                            
+
                             message = message.replace("message:", "");
                             Message parsed = parseMessage(message);
                             Messages.list.add(parsed);
@@ -92,10 +101,85 @@ public class ProtocolHandler extends Thread {
                             /*UI*/
                             mclient.txtRecieved.getEditorKit().createDefaultDocument();
                             String all = "";
-                            for (Message msg : Messages.list) {
-                                all += msg;
+                            
+                            for(int i = (Messages.list.size() - 1); i >= 0; i--) {
+                                all += Messages.list.get(i).toString();
                             }
+                            
                             mclient.txtRecieved.setText(all);
+
+                        } else if (serverMessage.startsWith("ackfile")) {
+                            serverMessage = serverMessage.replace("ackfile:", "");
+                            String fp[] = serverMessage.split(":s");
+                            int port = 0;
+
+                            for (String each : fp) {
+                                if (each.startsWith("port")) {
+                                    port = Integer.parseInt(each.replace("port=", ""));
+                                    break;
+                                }
+                            }
+
+                            System.out.println("PORT = " + port);
+                            Socket socket1 = new Socket(Client.host, port);
+                            OutputStream out = socket1.getOutputStream();
+                            FileInputStream fis = new FileInputStream(ackFile);
+                            int ch;
+
+                            while ((ch = fis.read()) != -1) {
+                                out.write(ch);
+                            }
+                            out.flush();
+                            out.close();
+                        } else if (serverMessage.startsWith("file")) {
+                            serverMessage = serverMessage.replace("file:", "");
+                            String fp[] = serverMessage.split(":s");
+                            int port = 0;
+                            String filename = "";
+                            String from = "";
+
+                            for (String each : fp) {
+                                if (each.startsWith("port")) {
+                                    port = Integer.parseInt(each.replace("port=", ""));
+                                }
+                                if (each.startsWith("filename")) {
+                                    filename = each.replace("filename=", "");
+                                }
+                                if (each.startsWith("from")) {
+                                    from = each.replace("from=", "");
+                                }
+                            }
+
+                            System.out.println("PORT = " + port + "filename: " + filename + " from = " + from);
+                            int retval = JOptionPane.showConfirmDialog(mclient, from + " is trying to send you a file. " +
+                                    "\n FileName: " + filename + "\n Do you want to accept?",
+                                    "Clox Client: File Transfer",
+                                    JOptionPane.YES_NO_CANCEL_OPTION);
+                            if (retval == JOptionPane.YES_OPTION) {
+                                JFileChooser fileChooser = new JFileChooser();
+                                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                                fileChooser.setDialogTitle("Please select directory to store file in");
+                                retval = fileChooser.showOpenDialog(mclient);
+                                if(retval == JFileChooser.APPROVE_OPTION) {
+                                    Socket socket1 = new Socket(Client.host, port);
+                                    File f = new File(fileChooser.getSelectedFile(), filename);
+
+                                    FileOutputStream fos = new FileOutputStream(f);
+                                    InputStream is = socket1.getInputStream();
+
+                                    int ch;
+
+                                    while((ch = is.read()) != -1) {
+                                        fos.write(ch);
+                                    }
+                                    fos.flush();
+                                    fos.close();
+
+                                    JOptionPane.showMessageDialog(mclient,
+                                            "File " + filename + " Saved", "Clox Client : File Transfer",
+                                            JOptionPane.INFORMATION_MESSAGE);
+                                }                                
+                            }
                         } else {
                             System.out.println(serverMessage);
                         }

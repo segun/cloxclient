@@ -19,18 +19,18 @@ import java.util.Properties;
  */
 public class Client extends Thread {
 
-    int port;
-    String host;
-    String username;
+    public static int port;
+    public static String host;
+    public static String username;
     public static boolean STOP_CLIENT = false;
     public Socket clientSocket;
     public CloxClient client;
 
     public Client(String username, CloxClient client) throws IOException {
         Properties props = new PropertyHelper().getProperties("./cloxclient.properties");
-        this.port = Integer.parseInt(props.getProperty("com.cloxclient.port"));
-        this.host = props.getProperty("com.cloxclient.host");
-        this.username = username;
+        Client.port = Integer.parseInt(props.getProperty("com.cloxclient.port"));
+        host = props.getProperty("com.cloxclient.host");
+        Client.username = username;
         this.client = client;
         STOP_CLIENT = false;
     }
@@ -42,7 +42,7 @@ public class Client extends Thread {
             try {
                 clientSocket = new Socket(host, port);
 
-                String clientDetails = "port:" + clientSocket.getLocalPort() + ",name:" + username + ",address:" + clientSocket.getLocalAddress();
+                String clientDetails = "details:port=" + clientSocket.getLocalPort() + ":sname=" + username + ":saddress=" + clientSocket.getLocalAddress();
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
                 writer.write(clientDetails + "\n");
                 writer.flush();
