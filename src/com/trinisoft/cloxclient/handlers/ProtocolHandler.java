@@ -100,14 +100,23 @@ public class ProtocolHandler extends Thread {
 
                             /*UI*/
                             mclient.txtRecieved.getEditorKit().createDefaultDocument();
-                            String all = "";
-                            
-                            for(int i = (Messages.list.size() - 1); i >= 0; i--) {
-                                all += Messages.list.get(i).toString();
-                            }
-                            
-                            mclient.txtRecieved.setText(all);
+                            String all = "<html>";
 
+                            for (int i = 0; i < Messages.list.size(); i++) {
+                                if(i == Messages.list.size() - 1) {
+                                    all += Messages.list.get(i).toNamedString();
+                                } else {
+                                    all += Messages.list.get(i).toString();
+                                }
+                            }
+                            /*for(int i = (Messages.list.size() - 1); i >= 0; i--) {
+                            all += Messages.list.get(i).toString();
+                            }*/
+
+                            all += "</html>";
+                            System.out.println(all);
+                            mclient.txtRecieved.setText(all);
+                            mclient.txtRecieved.scrollToReference("curpos");
                         } else if (serverMessage.startsWith("ackfile")) {
                             serverMessage = serverMessage.replace("ackfile:", "");
                             String fp[] = serverMessage.split(":s");
@@ -151,8 +160,8 @@ public class ProtocolHandler extends Thread {
                             }
 
                             System.out.println("PORT = " + port + "filename: " + filename + " from = " + from);
-                            int retval = JOptionPane.showConfirmDialog(mclient, from + " is trying to send you a file. " +
-                                    "\n FileName: " + filename + "\n Do you want to accept?",
+                            int retval = JOptionPane.showConfirmDialog(mclient, from + " is trying to send you a file. "
+                                    + "\n FileName: " + filename + "\n Do you want to accept?",
                                     "Clox Client: File Transfer",
                                     JOptionPane.YES_NO_CANCEL_OPTION);
                             if (retval == JOptionPane.YES_OPTION) {
@@ -160,7 +169,7 @@ public class ProtocolHandler extends Thread {
                                 fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                                 fileChooser.setDialogTitle("Please select directory to store file in");
                                 retval = fileChooser.showOpenDialog(mclient);
-                                if(retval == JFileChooser.APPROVE_OPTION) {
+                                if (retval == JFileChooser.APPROVE_OPTION) {
                                     Socket socket1 = new Socket(Client.host, port);
                                     File f = new File(fileChooser.getSelectedFile(), filename);
 
@@ -169,7 +178,7 @@ public class ProtocolHandler extends Thread {
 
                                     int ch;
 
-                                    while((ch = is.read()) != -1) {
+                                    while ((ch = is.read()) != -1) {
                                         fos.write(ch);
                                     }
                                     fos.flush();
@@ -178,7 +187,7 @@ public class ProtocolHandler extends Thread {
                                     JOptionPane.showMessageDialog(mclient,
                                             "File " + filename + " Saved", "Clox Client : File Transfer",
                                             JOptionPane.INFORMATION_MESSAGE);
-                                }                                
+                                }
                             }
                         } else {
                             System.out.println(serverMessage);

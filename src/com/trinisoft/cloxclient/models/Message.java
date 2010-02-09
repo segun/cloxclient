@@ -55,4 +55,10 @@ public class Message {
                 "<b style='color:red'>to " + this.getTo() + "</b><br />" +
                 "<div style='margin-left:25px'>" + this.getMsg() + "</div><br />";
     }
+
+    public String toNamedString() {
+        return "<a name='curpos'><i>" + this.getTime() + "</i> <b style='color:green'>from " + this.getFrom() + "</b> " +
+                "<b style='color:red'>to " + this.getTo() + "</b><br />" +
+                "<div style='margin-left:25px'>" + this.getMsg() + "</div><br /></a>";
+    }
 }
