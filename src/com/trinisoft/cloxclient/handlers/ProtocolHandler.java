@@ -9,6 +9,9 @@ import com.trinisoft.cloxclient.helpers.ClientList;
 import com.trinisoft.cloxclient.models.Message;
 import com.trinisoft.cloxclient.models.Messages;
 import com.trinisoft.cloxclient.ui.CloxClient;
+import com.trinisoft.cloxclient.ui.HTMLListModel;
+import java.awt.Component;
+import java.awt.Rectangle;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,7 +24,10 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.ListCellRenderer;
 
 /**
  *
@@ -97,26 +103,28 @@ public class ProtocolHandler extends Thread {
                             message = message.replace("message:", "");
                             Message parsed = parseMessage(message);
                             Messages.list.add(parsed);
+                            mclient.messageList.setCellRenderer(new ListCellRenderer() {
 
-                            /*UI*/
-                            mclient.txtRecieved.getEditorKit().createDefaultDocument();
-                            String all = "<html>";
-
-                            for (int i = 0; i < Messages.list.size(); i++) {
-                                if(i == Messages.list.size() - 1) {
-                                    all += Messages.list.get(i).toNamedString();
-                                } else {
-                                    all += Messages.list.get(i).toString();
+                                public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                                    return new JLabel(value.toString());
                                 }
-                            }
+                            });
+                            mclient.messageList.setModel(new HTMLListModel(Messages.list));
+                            mclient.messageList.ensureIndexIsVisible(Messages.list.size() - 1);
+                            /*UI*/
+//                            String all = "<html>";
+//
+//                            for (int i = 0; i < Messages.list.size(); i++) {
+//                                if(i == Messages.list.size() - 1) {
+//                                    all += Messages.list.get(i).toNamedString();
+//                                } else {
+//                                    all += Messages.list.get(i).toString();
+//                                }
+//                            }
                             /*for(int i = (Messages.list.size() - 1); i >= 0; i--) {
                             all += Messages.list.get(i).toString();
                             }*/
 
-                            all += "</html>";
-                            System.out.println(all);
-                            mclient.txtRecieved.setText(all);
-                            mclient.txtRecieved.scrollToReference("curpos");
                         } else if (serverMessage.startsWith("ackfile")) {
                             serverMessage = serverMessage.replace("ackfile:", "");
                             String fp[] = serverMessage.split(":s");

@@ -14,6 +14,7 @@ import com.trinisoft.cloxclient.Client;
 import com.trinisoft.cloxclient.handlers.Messenger;
 import com.trinisoft.cloxclient.models.Message;
 import com.trinisoft.cloxclient.models.Messages;
+import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -21,7 +22,11 @@ import java.io.IOException;
 import java.util.Date;
 import javax.swing.AbstractListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListSelectionModel;
 
 /**
  *
@@ -38,7 +43,7 @@ public class CloxClient extends javax.swing.JFrame {
     public CloxClient() {
         initComponents();
         selectedClients = new int[0];
-        txtRecieved.setContentType("text/html");
+        //txtRecieved.setContentType("text/html");
     }
 
     public void setNames(final Object[] names) {
@@ -71,8 +76,8 @@ public class CloxClient extends javax.swing.JFrame {
         txtUsername = new javax.swing.JTextField();
         btnLogin = new javax.swing.JButton();
         btnDisconnect = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        txtRecieved = new javax.swing.JEditorPane();
+        scroller = new javax.swing.JScrollPane();
+        messageList = new javax.swing.JList();
         jScrollPane4 = new javax.swing.JScrollPane();
         txtToSend = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
@@ -83,7 +88,6 @@ public class CloxClient extends javax.swing.JFrame {
         namesList = new javax.swing.JList();
         lblStatus = new javax.swing.JLabel();
         chkAll = new javax.swing.JCheckBox();
-        jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         btnSendFile = new javax.swing.JButton();
         btnDisconnect1 = new javax.swing.JButton();
@@ -142,16 +146,9 @@ public class CloxClient extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jScrollPane3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        scroller.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
-        txtRecieved.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                txtRecievedCaretPositionChanged(evt);
-            }
-        });
-        jScrollPane3.setViewportView(txtRecieved);
+        scroller.setViewportView(messageList);
 
         jScrollPane4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
@@ -214,19 +211,6 @@ public class CloxClient extends javax.swing.JFrame {
 
         chkAll.setText("    Everyone");
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED), "Emoticons"));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 444, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
         jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         btnSendFile.setText("Send File");
@@ -268,26 +252,31 @@ public class CloxClient extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(scroller))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(lblStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
                     .addComponent(chkAll))
                 .addContainerGap())
         );
@@ -298,15 +287,13 @@ public class CloxClient extends javax.swing.JFrame {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scroller, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -400,24 +387,26 @@ public class CloxClient extends javax.swing.JFrame {
                         Message message = Messenger.produceMessage(txtToSend.getText(), username, to.toString(), new Date());
                         Messenger.sendMessage(message, client.clientSocket);
                         Messages.list.add(message);
-                        txtRecieved.getEditorKit().createDefaultDocument();
-                        String all = "<html>";
+                        messageList.setCellRenderer(new ListCellRenderer() {
 
-                        for (int i = 0; i < Messages.list.size(); i++) {
-                            if (i == Messages.list.size() - 1) {
-                                all += Messages.list.get(i).toNamedString();
-                            } else {
-                                all += Messages.list.get(i).toString();
+                            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                                return new JLabel(value.toString());
                             }
-                        }
+                        });
+                        
+                        messageList.setModel(new HTMLListModel(Messages.list));
+                        messageList.ensureIndexIsVisible(Messages.list.size() - 1);
+//                        for (int i = 0; i < Messages.list.size(); i++) {
+//                            String all = "<html>";
+//                            if (i == Messages.list.size() - 1) {
+//                                all += Messages.list.get(i).toNamedString() + "</html>";
+//                            } else {
+//                                all += Messages.list.get(i).toString() + "</html>";
+//                            }
+//                        }
                         /*for(int i = (Messages.list.size() - 1); i >= 0; i--) {
                         all += Messages.list.get(i).toString();
                         }*/
-
-                        all += "</html>";
-                        System.out.println(all);
-                        txtRecieved.setText(all);
-                        txtRecieved.scrollToReference("curpos");
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException ie) {
@@ -499,10 +488,6 @@ public class CloxClient extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDisconnect1ActionPerformed
 
-    private void txtRecievedCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtRecievedCaretPositionChanged
-        // TODO add your handling code here:        
-    }//GEN-LAST:event_txtRecievedCaretPositionChanged
-
     /**
      * @param args the command line arguments
      */
@@ -523,17 +508,16 @@ public class CloxClient extends javax.swing.JFrame {
     public javax.swing.JCheckBox chkAll;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     public javax.swing.JLabel lblStatus;
+    public javax.swing.JList messageList;
     public javax.swing.JList namesList;
-    public javax.swing.JEditorPane txtRecieved;
+    public javax.swing.JScrollPane scroller;
     private javax.swing.JTextField txtToSend;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
