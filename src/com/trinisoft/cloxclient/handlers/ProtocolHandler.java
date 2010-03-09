@@ -148,6 +148,7 @@ public class ProtocolHandler extends Thread {
                             }
                             out.flush();
                             out.close();
+                            JOptionPane.showMessageDialog(mclient, "File Successfully Sent");
                         } else if (serverMessage.startsWith("file")) {
                             serverMessage = serverMessage.replace("file:", "");
                             String fp[] = serverMessage.split(":s");
