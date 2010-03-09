@@ -31,13 +31,11 @@ public class HTMLListModel implements ListModel {
         if (originalMessage.length() > 50) {
             originalMessage = lineBreaks(originalMessage);
         }
-        System.out.println(originalMessage);
         toReturn += originalMessage;
         Message oneMessage = data.get(index);
         String myData = "<i>" + oneMessage.getTime() + "</i> <b style='color:green'>from " + oneMessage.getFrom() + "</b> " +
                 "<b style='color:red'>to " + oneMessage.getTo() + "</b><br />" +
                 "<div style='margin-left:25px'>" + toReturn + "</div><br />";
-        System.out.println(myData);
         return "<html>" + myData + "</html>";
     }
 
