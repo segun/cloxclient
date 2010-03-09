@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Properties;
-import javax.swing.JList;
 
 /**
  *
@@ -22,15 +21,18 @@ public class Client extends Thread {
 
     public static int port;
     public static String host;
+    public static boolean useProperties;
     public static String username;
     public static boolean STOP_CLIENT = false;
     public Socket clientSocket;
     public CloxClient client;
 
     public Client(String username, CloxClient client) throws IOException {
-        Properties props = new PropertyHelper().getProperties("./cloxclient.properties");
-        Client.port = Integer.parseInt(props.getProperty("com.cloxclient.port"));
-        host = props.getProperty("com.cloxclient.host");
+        if (useProperties) {
+            Properties props = new PropertyHelper().getProperties("./cloxclient.properties");
+            Client.port = Integer.parseInt(props.getProperty("com.cloxclient.port"));
+            host = props.getProperty("com.cloxclient.host");
+        }
         Client.username = username;
         this.client = client;
         STOP_CLIENT = false;
@@ -48,7 +50,7 @@ public class Client extends Thread {
                 writer.write(clientDetails + "\n");
                 writer.flush();
 
-                new ProtocolHandler(clientSocket,client).start();
+                new ProtocolHandler(clientSocket, client).start();
                 break;
             } catch (IOException ioe) {
                 ioe.printStackTrace();
