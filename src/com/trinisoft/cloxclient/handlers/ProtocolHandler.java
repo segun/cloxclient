@@ -11,7 +11,7 @@ import com.trinisoft.cloxclient.models.Messages;
 import com.trinisoft.cloxclient.ui.CloxClient;
 import com.trinisoft.cloxclient.ui.HTMLListModel;
 import java.awt.Component;
-import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -83,9 +83,11 @@ public class ProtocolHandler extends Thread {
             try {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 String serverMessage = "";
-                while ((serverMessage = reader.readLine()) != null) {
-
+                while ((serverMessage = reader.readLine()) != null) {                    
                     if (serverMessage != null) {
+                        if(!serverMessage.startsWith("clients")) {
+                            Toolkit.getDefaultToolkit().beep();
+                        }
                         if (serverMessage.startsWith("clients")) {
                             serverMessage = serverMessage.replace("clients:", "");
                             updateClientList(serverMessage);
