@@ -87,6 +87,7 @@ public class ProtocolHandler extends Thread {
                     if (serverMessage != null) {
                         if(!serverMessage.startsWith("clients")) {
                             Toolkit.getDefaultToolkit().beep();
+                            mclient.toFront();
                         }
                         if (serverMessage.startsWith("clients")) {
                             serverMessage = serverMessage.replace("clients:", "");
