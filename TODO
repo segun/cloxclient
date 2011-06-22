@@ -1,1 +1,1 @@
-When sending/recieving, the client can not recieve message. Put the sending/recieving in its own thread
+Implement a buzz functionality.

@@ -46,6 +46,7 @@ public class Client extends Thread {
                 clientSocket = new Socket(host, port);
 
                 String clientDetails = "details:port=" + clientSocket.getLocalPort() + ":sname=" + username + ":saddress=" + clientSocket.getLocalAddress();
+                System.out.println(clientDetails);
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
                 writer.write(clientDetails + "\n");
                 writer.flush();

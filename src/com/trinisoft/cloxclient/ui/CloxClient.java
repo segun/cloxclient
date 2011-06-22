@@ -15,7 +15,6 @@ import com.trinisoft.cloxclient.handlers.Messenger;
 import com.trinisoft.cloxclient.models.Message;
 import com.trinisoft.cloxclient.models.Messages;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -27,7 +26,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.ListCellRenderer;
-import javax.swing.ListSelectionModel;
 
 /**
  *
