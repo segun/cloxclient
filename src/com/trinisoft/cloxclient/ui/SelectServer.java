@@ -133,20 +133,20 @@ public class SelectServer extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtHostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHostActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtHostActionPerformed
 
     private void usePropertiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usePropertiesActionPerformed
-        // TODO add your handling code here:
+        
         Client.useProperties = useProperties.isSelected();
     }//GEN-LAST:event_usePropertiesActionPerformed
 
     private void txtPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPortActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtPortActionPerformed
 
     private void cmdOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdOKActionPerformed
-        // TODO add your handling code here:
+        
         if(!useProperties.isSelected()) {
             Client.host = txtHost.getText();
             try {
@@ -162,7 +162,7 @@ public class SelectServer extends javax.swing.JDialog {
     }//GEN-LAST:event_cmdOKActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        
         System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -50,7 +50,8 @@ public class Client extends Thread {
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
                 writer.write(clientDetails + "\n");
                 writer.flush();
-
+                
+                System.out.println("flushed");
                 new ProtocolHandler(clientSocket, client).start();
                 break;
             } catch (IOException ioe) {

@@ -290,7 +290,7 @@ public class CloxClient extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
+        
         final CloxClient cloxClient = this;
         btnLogin.setEnabled(false);
         new Thread() {
@@ -322,7 +322,7 @@ public class CloxClient extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnDisconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisconnectActionPerformed
-        // TODO add your handling code here:
+        
         try {
             client.clientSocket.close();
         } catch (IOException ioe) {
@@ -331,14 +331,14 @@ public class CloxClient extends javax.swing.JFrame {
 }//GEN-LAST:event_btnDisconnectActionPerformed
 
     private void namesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_namesListMouseClicked
-        // TODO add your handling code here:
+        
         if (evt.getButton() == MouseEvent.BUTTON1) {
             selectedClients = namesList.getSelectedIndices();
         }
     }//GEN-LAST:event_namesListMouseClicked
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
-        // TODO add your handling code here:
+        
         final CloxClient cloxClient = this;
         btnSend.setEnabled(false);
         new Thread() {
@@ -391,12 +391,12 @@ public class CloxClient extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSendActionPerformed
 
     private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
-        // TODO add your handling code here:
+        
         btnLoginActionPerformed(evt);
     }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void btnSendFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendFileActionPerformed
-        // TODO add your handling code here:
+        
         btnSend.setEnabled(false);
         Object selectedNames[] = namesList.getSelectedValues();
         Object sendTo[] = new Object[0];
@@ -429,11 +429,11 @@ public class CloxClient extends javax.swing.JFrame {
 }//GEN-LAST:event_btnSendFileActionPerformed
 
     private void btnDisconnect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisconnect1ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnDisconnect1ActionPerformed
 
     private void txtToSendKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtToSendKeyReleased
-        // TODO add your handling code here:
+        
         if (evt.getKeyCode() != KeyEvent.VK_ENTER) {
             if (txtToSend.getText().equals("")) {
                 btnSend.setEnabled(false);
@@ -446,7 +446,7 @@ public class CloxClient extends javax.swing.JFrame {
 }//GEN-LAST:event_txtToSendKeyReleased
 
     private void txtToSendCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtToSendCaretPositionChanged
-        // TODO add your handling code here:
+        
         if (txtToSend.getText().equals("")) {
             btnSend.setEnabled(false);
         } else {
